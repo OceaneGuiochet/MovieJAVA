@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+  </head>
+  <body>
+    <th:block th:replace="fragments/header :: header"></th:block>
+
+    <h2>Liste des films</h2>
+
+    <form method="get" th:action="@{/home}">
+      <label for="style">Filtrer par genre :</label>
+      <select name="style" id="style">
+        <option
+          th:value="''"
+          th:text="'Tous'"
+          th:selected="${selectedStyle == null}"
+        ></option>
+        <option
+          th:each="style : ${styles}"
+          th:value="${style}"
+          th:text="${style}"
+          th:selected="${style == selectedStyle}"
+        ></option>
+      </select>
+      <button type="submit">Filtrer</button>
+    </form>
+
+    <ul>
+      <li th:each="movie : ${movies}">
+        <a
+          th:href="@{'/film/' + ${movie.idMovie}}"
+          th:text="${movie.title}"
+        ></a>
+      </li>
+    </ul>
+
+    <footer th:replace="fragments/footer :: footer"></footer>
+  </body>
+</html>
