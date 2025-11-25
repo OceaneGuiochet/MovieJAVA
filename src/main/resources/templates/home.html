@@ -30,7 +30,7 @@
     <ul>
       <li th:each="movie : ${movies}">
         <a
-          th:href="@{'/film/' + ${movie.idMovie}}"
+          th:href="@{'/film/' + ${movie.movieId}}"
           th:text="${movie.title}"
         ></a>
       </li>

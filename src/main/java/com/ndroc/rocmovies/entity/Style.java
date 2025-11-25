@@ -3,6 +3,8 @@ package com.ndroc.rocmovies.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "style")
 public class Style {
@@ -15,6 +17,7 @@ public class Style {
     private String styleName;
 
     @OneToMany(mappedBy = "style")
+    @JsonIgnore
     private List<Movie> movies;
 
     public Integer getStyleId() {

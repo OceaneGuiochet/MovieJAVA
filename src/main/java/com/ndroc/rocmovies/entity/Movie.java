@@ -3,6 +3,8 @@ package com.ndroc.rocmovies.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "movie")
 public class Movie {
@@ -22,12 +24,15 @@ public class Movie {
 
     @ManyToOne
     @JoinColumn(name = "producedBy")
+    @JsonIgnore
     private Productor productor;
 
     @OneToMany(mappedBy = "movie")
+    @JsonIgnore
     private List<Role> roles;
 
     @OneToMany(mappedBy = "movie")
+    @JsonIgnore
     private List<Borrow> borrows;
 
     public Movie() {

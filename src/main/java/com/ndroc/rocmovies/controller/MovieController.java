@@ -1,57 +1,54 @@
 package com.ndroc.rocmovies.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.Style;
-import com.ndroc.rocmovies.service.IMovieService;
-
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-
+import com.ndroc.rocmovies.entity.Movie;
+import com.ndroc.rocmovies.service.MovieService;
 
 @RestController
 public class MovieController {
 
-    //injection de dépendance
     @Autowired
-    @Qualifier("MovieService1")
-    private IMovieService service;
-    
-    //routes
+    private MovieService movieService;
+
+    @GetMapping
+    public List<Movie> getAllMovies() {
+        return movieService.getAllMovies();
+    }
+
     @GetMapping("movie/{id}")
-    public Movie getMovieById(@PathVariable long id){
-        Optional<Movie> opt = service.getMovieById(id);
-        if(opt.isPresent()){
-            return opt.get();
-        }else{
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "movie not found");
-        }
+    public Movie getMovieById(@PathVariable Integer id) {
+        return movieService.getMovieById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
     }
 
     @GetMapping("movie")
-    public List<Movie> getAllMovies(@RequestParam("style") Optional<Style> style) {
-        if(style.isPresent()){
-            return service.getListMoviesByStyle(style.get());
+    public List<Movie> getAllMovies(@RequestParam(value = "style", required = false) Integer styleId) {
+        if (styleId != null) {
+            return movieService.getMoviesByStyle(styleId);
         }
-        return service.getListMovies();
+        return movieService.getAllMovies();
     }
-    
+
+    @GetMapping("movie/page")
+    public List<Movie> getMoviesPaginated(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return movieService.getMoviesPaginated(pageable).getContent();
+    }
+
     @PostMapping("movie")
-    public void addMovie(@RequestBody Movie movie){
-        service.addMovie(movie);
+    public void addMovie(@RequestBody @Validated Movie movie){
+        movieService.addMovie(movie);
     }
-    
-    
 }

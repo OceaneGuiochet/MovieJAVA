@@ -3,6 +3,8 @@ package com.ndroc.rocmovies.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "productor")
 public class Productor {
@@ -14,6 +16,7 @@ public class Productor {
     private String name;
 
     @OneToMany(mappedBy = "productor")
+    @JsonIgnore
     private List<Movie> movies;
 
     public Integer getProductorId() {

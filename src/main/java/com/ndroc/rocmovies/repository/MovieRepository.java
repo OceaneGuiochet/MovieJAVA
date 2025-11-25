@@ -1,32 +1,19 @@
 package com.ndroc.rocmovies.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ndroc.rocmovies.entity.Movie;
 import com.ndroc.rocmovies.entity.Style;
 
-@Component
-public class MovieRepository {
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+    
 
-    private final List<Movie> movies;
+    List<Movie> findByStyle(Style style);
+    Page<Movie> findAll(Pageable pageable);
+    List<Movie> findByStyleStyleId(Integer styleId);
 
-    public MovieRepository() {
-        movies = new ArrayList<>();
-        movies.add(new Movie());
-        movies.add(new Movie());
-        movies.add(new Movie());
-        movies.add(new Movie());
-        movies.add(new Movie());
-    }
-
-    public List<Movie> findAll() {
-        return new ArrayList<>(movies);
-    }
-
-    public void save(Movie movie) {
-        movies.add(movie);
-    }
 }
