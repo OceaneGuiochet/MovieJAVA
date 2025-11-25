@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.ndroc.rocmovies.entity.Movie;
 import com.ndroc.rocmovies.entity.Style;
 import com.ndroc.rocmovies.repository.MovieRepository;
-import com.ndroc.rocmovies.repository.MovieRepositoryJDBC;
 
 @Service
 public class MovieService {
@@ -39,13 +38,17 @@ public class MovieService {
         return movieRepository.findByStyleStyleId(styleId);
     }
 
+    public List<Style> getAllStyles() {
+        return movieRepository.findDistinctStyles();
+    }
+
     public void addMovie(Movie movie) {
         movieRepository.save(movie);
     }
 
     public void deleteMovie(Integer id) {
-    movieRepository.deleteById(id);
-}
+        movieRepository.deleteById(id);
 
+    }
 
 }

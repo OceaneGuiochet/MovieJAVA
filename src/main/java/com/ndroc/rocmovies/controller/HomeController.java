@@ -1,6 +1,5 @@
 package com.ndroc.rocmovies.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,41 +12,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ndroc.rocmovies.entity.Movie;
 import com.ndroc.rocmovies.entity.Style;
-import com.ndroc.rocmovies.service.MovieService1;
+import com.ndroc.rocmovies.service.MovieService;
 
 @Controller
+@RequestMapping("/home")
 public class HomeController {
 
     @Autowired
-    private MovieService1 movieService1;
+    private MovieService movieService;
 
-    @RequestMapping(value = { "", "/", "home" })
-    public String displayHomePage(@RequestParam(name = "style", required = false) Style style, Model model) {
+    @GetMapping
+    public String displayHomePage(@RequestParam(name = "style", required = false) Integer styleId, Model model) {
         List<Movie> movies;
-
-        if (style != null) {
-            movies = movieService1.getListMoviesByStyle(style);
+        if (styleId != null) {
+            movies = movieService.getMoviesByStyle(styleId);
         } else {
-            movies = movieService1.getListMovies();
+            movies = movieService.getAllMovies();
         }
 
-        // List<Style> styles = Arrays.asList(Style.values());
+        List<Style> styles = movieService.getAllStyles();
 
-        // model.addAttribute("movies", movies);
-        // model.addAttribute("styles", styles);
-        // model.addAttribute("selectedStyle", style);
+        model.addAttribute("movies", movies);
+        model.addAttribute("styles", styles);
+        model.addAttribute("selectedStyle", styleId);
 
         return "home";
     }
 
     @GetMapping("/film/{id}")
-    public String displayMovieDetail(@PathVariable long id, Model model) {
-        Movie movie = movieService1.getMovieById(id).orElse(null);
+    public String displayMovieDetail(@PathVariable Integer id, Model model) {
+        Movie movie = movieService.getMovieById(id).orElse(null);
         if (movie == null) {
             return "redirect:/home";
         }
         model.addAttribute("movie", movie);
         return "movie-detail";
     }
-
 }

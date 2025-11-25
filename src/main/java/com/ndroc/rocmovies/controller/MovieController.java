@@ -1,6 +1,7 @@
 package com.ndroc.rocmovies.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ndroc.rocmovies.entity.Movie;
+import com.ndroc.rocmovies.entity.Style;
 import com.ndroc.rocmovies.service.MovieService;
 
 @RestController
@@ -24,7 +26,7 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAllMovies(@RequestParam("style") Optional<Style> style) {
         return movieService.getAllMovies();
     }
 

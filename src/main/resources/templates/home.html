@@ -19,9 +19,9 @@
         ></option>
         <option
           th:each="style : ${styles}"
-          th:value="${style}"
-          th:text="${style}"
-          th:selected="${style == selectedStyle}"
+          th:value="${style.styleId}"
+          th:text="${style.styleName}"
+          th:selected="${style.styleId == selectedStyle}"
         ></option>
       </select>
       <button type="submit">Filtrer</button>
@@ -30,7 +30,7 @@
     <ul>
       <li th:each="movie : ${movies}">
         <a
-          th:href="@{'/film/' + ${movie.movieId}}"
+          th:href="@{'/home/film/' + ${movie.movieId}}"
           th:text="${movie.title}"
         ></a>
       </li>
