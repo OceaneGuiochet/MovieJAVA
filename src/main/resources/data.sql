@@ -23,16 +23,42 @@ VALUES ('Warner Bros'),
 INSERT INTO
     movie (
         title,
+        reference,
         production_year,
         style_id,
         produced_by
     )
-VALUES ('Cloud Atlas', 2012, 1, 1),
-    ('Shutter Island', 2010, 3, 2),
-    ('Interstellar', 2018, 1, 1),
-    ('Pulp Fiction', 2001, 4, 3),
+VALUES (
+        'Cloud Atlas',
+        'CLD2012',
+        2012,
+        1,
+        1
+    ),
+    (
+        'Shutter Island',
+        'SHI2010',
+        2010,
+        3,
+        2
+    ),
+    (
+        'Interstellar',
+        'INT2018',
+        2018,
+        1,
+        1
+    ),
+    (
+        'Pulp Fiction',
+        'PUF2001',
+        2001,
+        4,
+        3
+    ),
     (
         'Mulholland Drive',
+        'MUL2001',
         2001,
         3,
         2

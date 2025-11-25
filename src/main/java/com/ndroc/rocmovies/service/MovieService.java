@@ -39,9 +39,13 @@ public class MovieService {
         return movieRepository.findByStyleStyleId(styleId);
     }
 
-
     public void addMovie(Movie movie) {
         movieRepository.save(movie);
     }
+
+    public void deleteMovie(Integer id) {
+    movieRepository.deleteById(id);
+}
+
 
 }

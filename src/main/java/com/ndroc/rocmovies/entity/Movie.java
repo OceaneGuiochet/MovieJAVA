@@ -15,6 +15,9 @@ public class Movie {
 
     private String title;
 
+    @Column(unique = true)
+    private String reference;
+
     @Column(name = "production_year")
     private Integer productionYear;
 
@@ -24,7 +27,6 @@ public class Movie {
 
     @ManyToOne
     @JoinColumn(name = "producedBy")
-    @JsonIgnore
     private Productor productor;
 
     @OneToMany(mappedBy = "movie")
@@ -52,6 +54,14 @@ public class Movie {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public Integer getProductionYear() {
