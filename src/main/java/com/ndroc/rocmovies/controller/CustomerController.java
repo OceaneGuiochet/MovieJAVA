@@ -3,11 +3,9 @@ package com.ndroc.rocmovies.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.ndroc.rocmovies.entity.Borrow;
 import com.ndroc.rocmovies.entity.Customer;
@@ -27,29 +25,40 @@ public class CustomerController {
     }
 
     @GetMapping("/customers")
-    public List<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        List<Customer> customers = customerService.getAllCustomers();
+        return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/customers/{id}")
-    public Customer getCustomerById(@PathVariable Integer id) {
-        return customerService.getAllCustomers()
-                .stream()
-                .filter(c -> c.getCustomerId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Integer id) {
+        try {
+            Customer customer = customerService.getCustomerById(id);
+            return ResponseEntity.ok(customer);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @GetMapping("/customers/{id}/borrows")
-    public List<Borrow> getBorrowsByCustomer(@PathVariable Integer id) {
-        Customer customer = customerService.getCustomerById(id);
-        return customer.getBorrows();
+    public ResponseEntity<List<Borrow>> getBorrowsByCustomer(@PathVariable Integer id) {
+        try {
+            Customer customer = customerService.getCustomerById(id);
+            return ResponseEntity.ok(customer.getBorrows());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
-    @PostMapping("customers/{id}/borrows")
-    public Borrow addBorrowForCustomer(@PathVariable Integer id, @RequestBody Borrow borrow) {
-        Customer customer = customerService.getCustomerById(id);
-        borrow.setCustomer(customer);
-        return borrowService.saveBorrow(borrow);
+    @PostMapping("/customers/{id}/borrows")
+    public ResponseEntity<Borrow> addBorrowForCustomer(@PathVariable Integer id, @RequestBody Borrow borrow) {
+        try {
+            Customer customer = customerService.getCustomerById(id);
+            borrow.setCustomer(customer);
+            Borrow savedBorrow = borrowService.saveBorrow(borrow);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedBorrow);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
