@@ -15,21 +15,21 @@ import com.ndroc.rocmovies.repository.BorrowRepository;
 @Service
 public class BorrowService {
 
-    @Autowired
-    private BorrowRepository borrowRepository;
+    // @Autowired
+    // private BorrowRepository borrowRepository;
 
-    public List<Movie> getBorrowedMoviesByCustomerId(Integer customerId) {
-        return borrowRepository.findByCustomerCustomerId(customerId)
-                               .stream()
-                               .map(Borrow::getMovie)
-                               .collect(Collectors.toList());
-    }
+    // public List<Movie> getBorrowedMoviesByCustomerId(Integer customerId) {
+    //     return borrowRepository.findByCustomerCustomerId(customerId)
+    //                            .stream()
+    //                            .map(Borrow::getMovie)
+    //                            .collect(Collectors.toList());
+    // }
 
-    public List<Customer> getCustomersByBorrowedMovieStyle(Style style) {
-        return borrowRepository.findDistinctByMovieStyle(style)
-                               .stream()
-                               .map(Borrow::getCustomer)
-                               .distinct()
-                               .collect(Collectors.toList());
-    }
+    // public List<Customer> getCustomersByBorrowedMovieStyle(Style style) {
+    //     return borrowRepository.findDistinctByMovieStyle(style)
+    //                            .stream()
+    //                            .map(Borrow::getCustomer)
+    //                            .distinct()
+    //                            .collect(Collectors.toList());
+    // }
 }

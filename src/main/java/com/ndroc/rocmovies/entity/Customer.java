@@ -3,6 +3,8 @@ package com.ndroc.rocmovies.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -14,6 +16,7 @@ public class Customer {
     private String name;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Borrow> borrows;
 
     public Integer getCustomerId() {
