@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
+import com.ndroc.rocmovies.entity.Style;
 import com.ndroc.rocmovies.service.MovieService1;
 
 @WebMvcTest(MovieController.class)
@@ -25,18 +25,23 @@ public class MovieControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean(name = "MovieService2")
+    @MockBean(name = "MovieService1")
     private MovieService1 movieService;
 
-    @Test
-    public void testGetMovieByIdFound() throws Exception {
-        Movie movie = new Movie(1, "A", MovieStyles.ACTION, 2000);
-        when(movieService.getMovieById(1L)).thenReturn(Optional.of(movie));
+  @Test
+public void testGetMovieByIdFound() throws Exception {
+    Style actionStyle = new Style();
+    actionStyle.setStyleId(1);
+    actionStyle.setStyleName("ACTION");
 
-        mockMvc.perform(get("/movie/1"))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.title").value("A"));
-    }
+    Movie movie = new Movie();
+    when(movieService.getMovieById(1L)).thenReturn(Optional.of(movie));
+
+    mockMvc.perform(get("/movie/1"))
+           .andExpect(status().isOk())
+           .andExpect(jsonPath("$.title").value("A"))
+           .andExpect(jsonPath("$.style.name").value("ACTION"));
+}
 
     @Test
     public void testGetMovieByIdNotFound() throws Exception {

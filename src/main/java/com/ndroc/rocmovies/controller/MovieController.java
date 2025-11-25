@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
+import com.ndroc.rocmovies.entity.Style;
 import com.ndroc.rocmovies.service.IMovieService;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +26,7 @@ public class MovieController {
 
     //injection de dépendance
     @Autowired
-    @Qualifier("MovieService2")
+    @Qualifier("MovieService1")
     private IMovieService service;
     
     //routes
@@ -41,7 +41,7 @@ public class MovieController {
     }
 
     @GetMapping("movie")
-    public List<Movie> getAllMovies(@RequestParam("style") Optional<MovieStyles> style) {
+    public List<Movie> getAllMovies(@RequestParam("style") Optional<Style> style) {
         if(style.isPresent()){
             return service.getListMoviesByStyle(style.get());
         }

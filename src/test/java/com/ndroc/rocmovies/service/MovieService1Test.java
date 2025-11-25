@@ -1,7 +1,7 @@
 package com.ndroc.rocmovies.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
 import com.ndroc.rocmovies.repository.MovieRepository;
 
 
@@ -28,7 +27,7 @@ public class MovieService1Test {
     @Test
     public void testGetListMovies() {
         when(movieRepository.findAll()).thenReturn(List.of(
-            new Movie(1, "Test Movie", MovieStyles.ACTION, 2000)
+            // new Movie(1, "Test Movie", Style.ACTION, 2000)
         ));
 
         List<Movie> movies = movieService.getListMovies();
@@ -38,10 +37,10 @@ public class MovieService1Test {
 
     @Test
     public void testGetMoviesBetween() {
-        when(movieRepository.findAll()).thenReturn(List.of(
-            new Movie(1, "A", MovieStyles.ACTION, 2000),
-            new Movie(2, "B", MovieStyles.SF, 2010)
-        ));
+        // when(movieRepository.findAll()).thenReturn(List.of(
+        //     new Movie(1, "A", Style.ACTION, 2000),
+        //     new Movie(2, "B", Style.SF, 2010)
+        // ));
 
         List<Movie> movies = movieService.getMoviesBetween(2005, 2015);
         assertEquals(1, movies.size());

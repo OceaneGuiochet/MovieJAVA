@@ -1,21 +1,45 @@
 package com.ndroc.rocmovies.entity;
 
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "movie")
 public class Movie {
 
-    public Movie(int idMovie, String title, MovieStyles style, int productionYear) {
-        this.idMovie = idMovie;
-        this.title = title;
-        this.style = style;
-        this.productionYear = productionYear;
-    }
-
-    private Integer idMovie;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer movieId;
 
     private String title;
 
-    private MovieStyles style;
-    
+    @Column(name = "production_year")
     private Integer productionYear;
+
+    @ManyToOne
+    @JoinColumn(name = "styleId")
+    private Style style;
+
+    @ManyToOne
+    @JoinColumn(name = "producedBy")
+    private Productor productor;
+
+    @OneToMany(mappedBy = "movie")
+    private List<Role> roles;
+
+    @OneToMany(mappedBy = "movie")
+    private List<Borrow> borrows;
+
+    public Movie() {
+    }
+
+    public Integer getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Integer movieId) {
+        this.movieId = movieId;
+    }
 
     public String getTitle() {
         return title;
@@ -25,31 +49,43 @@ public class Movie {
         this.title = title;
     }
 
-    public MovieStyles getStyle() {
-        return style;
-    }
-
-    public void setStyle(MovieStyles style) {
-        this.style = style;
-    }
-
-    public int getProductionYear() {
+    public Integer getProductionYear() {
         return productionYear;
     }
 
-    public void setProductionYear(int productionYear) {
+    public void setProductionYear(Integer productionYear) {
         this.productionYear = productionYear;
     }
 
-    public int getIdMovie() {
-        return idMovie;
+    public Style getStyle() {
+        return style;
     }
 
-    public void setIdMovie(int idMovie) {
-        this.idMovie = idMovie;
+    public void setStyle(Style style) {
+        this.style = style;
     }
-    
-    
-    
-    
+
+    public Productor getProductor() {
+        return productor;
+    }
+
+    public void setProductor(Productor productor) {
+        this.productor = productor;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Borrow> getBorrows() {
+        return borrows;
+    }
+
+    public void setBorrows(List<Borrow> borrows) {
+        this.borrows = borrows;
+    }
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
+import com.ndroc.rocmovies.entity.Style;
 
 @Service(value = "MovieService2")
 public class MovieService2 implements IMovieService {
@@ -20,11 +20,11 @@ public class MovieService2 implements IMovieService {
      */
     private static List<Movie> getDefaultList() {
         List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(1, "Cloud Atlas", MovieStyles.SF, 2012));
-        movies.add(new Movie(2, "Shutter Island", MovieStyles.THRILLER, 2010));
-        movies.add(new Movie(3, "Interstellar", MovieStyles.SF, 2018));
-        movies.add(new Movie(4, "Pulp Fiction", MovieStyles.ACTION, 2001));
-        movies.add(new Movie(5, "Mulholland Drive", MovieStyles.THRILLER, 2001));
+        movies.add(new Movie());
+        movies.add(new Movie());
+        movies.add(new Movie());
+        movies.add(new Movie());
+        movies.add(new Movie());
 
         return movies;
     }
@@ -44,7 +44,7 @@ public class MovieService2 implements IMovieService {
 
     @Override
     public Optional<Movie> getMovieById(long id) {
-        return getListMovies().stream().filter(m -> m.getIdMovie() == id).findFirst();
+        return getListMovies().stream().filter(m -> m.getMovieId() == id).findFirst();
     }
 
     public MovieService2() {
@@ -58,7 +58,7 @@ public class MovieService2 implements IMovieService {
     }
 
     @Override
-    public List<Movie> getListMoviesByStyle(MovieStyles style) {
+    public List<Movie> getListMoviesByStyle(Style style) {
         return getListMovies().stream().filter(m -> m.getStyle() == style).toList();
 
     }

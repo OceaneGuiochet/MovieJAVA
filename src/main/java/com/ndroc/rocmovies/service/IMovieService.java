@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
+import com.ndroc.rocmovies.entity.Style;
 
 public interface IMovieService {
 
@@ -17,7 +17,7 @@ public interface IMovieService {
 
     void addMovie(Movie movie);
 
-    List<Movie> getListMoviesByStyle(MovieStyles style);
+    List<Movie> getListMoviesByStyle(Style style);
     List<Movie> getMoviesBetween(int startYear, int endYear);
 
 

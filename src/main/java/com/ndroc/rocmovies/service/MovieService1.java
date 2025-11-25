@@ -1,75 +1,55 @@
 package com.ndroc.rocmovies.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
+import com.ndroc.rocmovies.entity.Style;
+import com.ndroc.rocmovies.repository.MovieRepositoryJDBC;
 
 @Service(value = "MovieService1")
 @Primary
 public class MovieService1 implements IMovieService {
 
-    /**
-     * Fournit une liste de films 'en dur'
-     * en attendant de pouvoir utiliser une base de données
-     * 
-     * @return
-     */
-    private static List<Movie> getDefaultList() {
-        List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(1, "Cloud Atlas", MovieStyles.SF, 2012));
-        movies.add(new Movie(2, "Shutter Island", MovieStyles.THRILLER, 2010));
-        movies.add(new Movie(3, "Interstellar", MovieStyles.SF, 2018));
-        movies.add(new Movie(4, "Pulp Fiction", MovieStyles.ACTION, 2001));
-        movies.add(new Movie(5, "Mulholland Drive", MovieStyles.THRILLER, 2001));
+    private final MovieRepositoryJDBC movieRepository;
 
-        return movies;
+    @Autowired
+    public MovieService1(MovieRepositoryJDBC movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
-    private List<Movie> movieList;
-
-    /**
-     * Liste complète de tous les films
-     */
     @Override
     public List<Movie> getListMovies() {
-        if (movieList == null) {
-            movieList = getDefaultList();
-        }
-        return movieList;
+        return movieRepository.findAll();
     }
 
     @Override
     public Optional<Movie> getMovieById(long id) {
-        return getListMovies().stream().filter(m -> m.getIdMovie() == id).findFirst();
-    }
-
-    public MovieService1() {
-        System.out.println("Création du service MovieService");
+        return movieRepository.findAll().stream()
+                .filter(m -> m.getMovieId() == id)
+                .findFirst();
     }
 
     @Override
     public void addMovie(Movie movie) {
-
-        getListMovies().add(movie);
+        movieRepository.save(movie);
     }
 
     @Override
-    public List<Movie> getListMoviesByStyle(MovieStyles style) {
-        return getListMovies().stream().filter(m -> m.getStyle() == style).toList();
-
+    public List<Movie> getListMoviesByStyle(Style style) {
+        return movieRepository.findAll().stream()
+                .filter(m -> m.getStyle() == style)
+                .toList();
     }
 
     @Override
     public List<Movie> getMoviesBetween(int startYear, int endYear) {
-        return getListMovies().stream()
+        return movieRepository.findAll().stream()
                 .filter(m -> m.getProductionYear() >= startYear && m.getProductionYear() <= endYear)
                 .toList();
     }
-
 }

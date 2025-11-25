@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ndroc.rocmovies.entity.Movie;
-import com.ndroc.rocmovies.entity.MovieStyles;
+import com.ndroc.rocmovies.entity.Style;
 import com.ndroc.rocmovies.service.MovieService1;
 
 @Controller
@@ -22,7 +22,7 @@ public class HomeController {
     private MovieService1 movieService1;
 
     @RequestMapping(value = { "", "/", "home" })
-    public String displayHomePage(@RequestParam(name = "style", required = false) MovieStyles style, Model model) {
+    public String displayHomePage(@RequestParam(name = "style", required = false) Style style, Model model) {
         List<Movie> movies;
 
         if (style != null) {
@@ -31,11 +31,11 @@ public class HomeController {
             movies = movieService1.getListMovies();
         }
 
-        List<MovieStyles> styles = Arrays.asList(MovieStyles.values());
+        // List<Style> styles = Arrays.asList(Style.values());
 
-        model.addAttribute("movies", movies);
-        model.addAttribute("styles", styles);
-        model.addAttribute("selectedStyle", style);
+        // model.addAttribute("movies", movies);
+        // model.addAttribute("styles", styles);
+        // model.addAttribute("selectedStyle", style);
 
         return "home";
     }
