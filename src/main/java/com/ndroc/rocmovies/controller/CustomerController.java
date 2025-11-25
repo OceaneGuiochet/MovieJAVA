@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ndroc.rocmovies.entity.Borrow;
 import com.ndroc.rocmovies.entity.Customer;
 import com.ndroc.rocmovies.service.CustomerService;
 
@@ -28,5 +29,11 @@ public class CustomerController {
                 .filter(c -> c.getCustomerId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
+
+     @GetMapping("/customers/{id}/borrows")
+    public List<Borrow> getBorrowsByCustomer(@PathVariable Integer id) {
+        Customer customer = customerService.getCustomerById(id);
+        return customer.getBorrows(); // Suppose que Customer a getBorrows()
     }
 }
